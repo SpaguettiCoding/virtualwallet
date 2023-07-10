@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.alkemy</groupId>
-	<artifactId>cysjava.billeteravirtual</artifactId>
+	<artifactId>cysjava.virtualwallet</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>CyS Java - Billetera Virtual</name>
 	<description>Proyecto Fin de Bootcamp Alkemy/C&amp;S</description>
