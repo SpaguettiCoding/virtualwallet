@@ -11,7 +11,7 @@
 	<groupId>com.alkemy</groupId>
 	<artifactId>cysjava.virtualwallet</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>CyS Java - Billetera Virtual</name>
+	<name>CyS Java - Virtual Wallet</name>
 	<description>Proyecto Fin de Bootcamp Alkemy/C&amp;S</description>
 	<properties>
 		<java.version>17</java.version>
