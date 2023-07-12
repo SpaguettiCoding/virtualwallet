@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="creditCard")
+@Table(name="fixed_term_deposits")
 public class FixedTermDeposits {
 
     @Id
