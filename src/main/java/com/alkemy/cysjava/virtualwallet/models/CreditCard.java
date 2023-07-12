@@ -26,9 +26,9 @@ public class CreditCard {
 
     private double amount;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id")
-    private Accounts account;
+//    @ManyToOne
+//    @JoinColumn(name = "account_id")
+//    private Accounts account;
 
     private Timestamp creationDate;
 
@@ -36,25 +36,8 @@ public class CreditCard {
 
     private boolean softDelete;
 
-    @ManyToMany(mappedBy = "creditCards")
-    private List<Transactions> transactions;
+//    @ManyToMany(mappedBy = "creditCards")
+//    private List<Transactions> transactions;
 
-//    @PrePersist
-//    @PreUpdate
-//    //PrePersist -> Será ejecutado antes de persistir los datos automaticamente por JPA
-//    // PreUpdate -> Será ejecutado antes de que una entidad existente sea actualizada
-//    private void calculateAmountAvailable() {
-//
-//        if (account != null) {
-//            double money = account.getBalance();
-//            if (money < 10000) {
-//                amountAvailable = money * 10;
-//            } else {
-//                amountAvailable = money * 5;
-//            }
-//        }else {
-//            amountAvailable = 0;
-//            System.out.println("You don't qualify for a credit card");
-//        }
-//    }
+
 }
