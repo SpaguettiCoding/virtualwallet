@@ -26,9 +26,9 @@ public class CreditCard {
 
     private double amount;
 
-//    @ManyToOne
-//    @JoinColumn(name = "account_id")
-//    private Accounts account;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Accounts account;
 
     private Timestamp creationDate;
 
@@ -36,8 +36,8 @@ public class CreditCard {
 
     private boolean softDelete;
 
-//    @ManyToMany(mappedBy = "creditCards")
-//    private List<Transactions> transactions;
+    @ManyToMany(mappedBy = "creditCards")
+    private List<Transactions> transactions;
 
 
 }
