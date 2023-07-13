@@ -1,7 +1,8 @@
 package com.alkemy.cysjava.virtualwallet.models;
 
-import com.alkemy.cysjava.virtualwallet.enums.RolName;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Getter;
@@ -20,12 +21,15 @@ public class Roles {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Enumerated(EnumType.STRING)
-    private RolName name;
+    @NotBlank
+    private String name;
 
+    @NotNull
     private String description;
 
+    @NotNull
     private Timestamp creationDate;
 
+    @NotNull
     private Timestamp updateDate;
 }
