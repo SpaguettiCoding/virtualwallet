@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "user")
-public class Users {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,7 @@ public class Users {
 
     @NotBlank
     @OneToOne
-    private Roles roles;
+    private Role role;
 
     private Timestamp creationDate;
 
@@ -45,15 +45,15 @@ public class Users {
     private boolean softDelete;
 
     @OneToMany(mappedBy = "user")
-    private List<Accounts> accounts;
+    private List<Account> account;
 
-    public Users(int id, String firstName, String lastName, String email, String password, Roles roles, Timestamp creationDate, Timestamp updateDate, boolean softDelete) {
+    public User(int id, String firstName, String lastName, String email, String password, Role role, Timestamp creationDate, Timestamp updateDate, boolean softDelete) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.roles = roles;
+        this.role = role;
         this.creationDate = creationDate;
         this.updateDate = updateDate;
         this.softDelete = softDelete;
