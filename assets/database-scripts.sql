@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `virtualwallet`.`user` (
   `last_name` VARCHAR(255) NULL DEFAULT NULL,
   `password` VARCHAR(255) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `UK_ntc01ead2d77ypev4qkp2x7si` (`roles_id` ASC) VISIBLE,
+  UNIQUE INDEX `UK_ntc01ead2d77ypev4qkp2x7si` (`role_id` ASC) VISIBLE,
   CONSTRAINT `FKqwdb2ejj8pvnovexfq172hej4`
     FOREIGN KEY (`role_id`)
     REFERENCES `virtualwallet`.`role` (`id`))
