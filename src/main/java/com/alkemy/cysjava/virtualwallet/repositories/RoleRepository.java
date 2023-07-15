@@ -1,9 +1,9 @@
 package com.alkemy.cysjava.virtualwallet.repositories;
 
-import com.alkemy.cysjava.virtualwallet.models.Roles;
+import com.alkemy.cysjava.virtualwallet.models.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RolesRepository extends JpaRepository<Roles, Integer> {
+public interface RoleRepository extends JpaRepository<Role, Integer> {
 }
