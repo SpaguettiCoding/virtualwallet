@@ -12,5 +12,5 @@ CREATE TABLE IF NOT EXISTS `virtualwallet`.`roles` (
 
 --INSERTS de roles / SEED DATA
 INSERT INTO roles (name, description, creation_date, update_date) VALUES ("admin", "rol de administrador", NOW(), NOW());
-INSERT INTO roles (name, description, creation_date, update_date) VALUES ("user", "rol de administrador", NOW(), NOW());
+INSERT INTO roles (name, description, creation_date, update_date) VALUES ("user", "rol de usuario", NOW(), NOW());
 
