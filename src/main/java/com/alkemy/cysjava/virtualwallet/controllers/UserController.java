@@ -1,6 +1,6 @@
 package com.alkemy.cysjava.virtualwallet.controllers;
 
-import com.alkemy.cysjava.virtualwallet.model.User;
+import com.alkemy.cysjava.virtualwallet.models.User;
 import com.alkemy.cysjava.virtualwallet.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

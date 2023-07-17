@@ -44,8 +44,8 @@ public class User {
 
     private boolean softDelete;
 
-    @OneToMany(mappedBy = "user")
-    private List<Account> account;
+//    @OneToMany(mappedBy = "user")
+//    private List<Account> account;
 
     public User(int id, String firstName, String lastName, String email, String password, Role role, Timestamp creationDate, Timestamp updateDate, boolean softDelete) {
         this.id = id;

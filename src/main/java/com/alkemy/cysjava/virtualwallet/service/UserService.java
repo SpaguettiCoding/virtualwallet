@@ -1,8 +1,7 @@
 package com.alkemy.cysjava.virtualwallet.service;
 
-import com.alkemy.cysjava.virtualwallet.UserDTO;
-import com.alkemy.cysjava.virtualwallet.exception.NotFoundException;
-import com.alkemy.cysjava.virtualwallet.model.User;
+import com.alkemy.cysjava.virtualwallet.repositories.UserRepository;
+import com.alkemy.cysjava.virtualwallet.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,14 +9,14 @@ import java.util.List;
 
 @Service
 public class UserService {
-    private final UserDTO userDTO;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserService(UserDTO userDTO) {
-        this.userDTO = userDTO;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
     public User addUser(User user) {
-        return userDTO.save(user);
+        return userRepository.save(user);
     }
 
 }
