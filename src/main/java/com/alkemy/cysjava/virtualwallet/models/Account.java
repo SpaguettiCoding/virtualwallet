@@ -2,6 +2,8 @@ package com.alkemy.cysjava.virtualwallet.models;
 
 import com.alkemy.cysjava.virtualwallet.models.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,10 +22,13 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotBlank
     private String currency;
 
+    @NotNull
     private double transactionLimit;
 
+    @NotNull
     private double balance;
 
     @ManyToOne
@@ -31,7 +36,7 @@ public class Account {
     private User user;
 
     private Timestamp creationDate;
-
+    
     private Timestamp updateDate;
 
     private boolean softDelete;
