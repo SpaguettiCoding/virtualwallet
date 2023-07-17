@@ -1,5 +1,7 @@
 package com.alkemy.cysjava.virtualwallet.service;
 
+import com.alkemy.cysjava.virtualwallet.DTOs.UserDTO;
+import com.alkemy.cysjava.virtualwallet.mappers.UserMapper;
 import com.alkemy.cysjava.virtualwallet.repositories.UserRepository;
 import com.alkemy.cysjava.virtualwallet.models.User;
 import jakarta.validation.constraints.Email;
@@ -15,15 +17,18 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
 
-    @Autowired
-    @NotEmpty
-    @NotNull
-    @NotBlank
-    public UserService(UserRepository userRepository) {
+    private final UserMapper userMapper;
+    public UserService(UserRepository userRepository, UserMapper userMapper) {
+        this.userMapper = userMapper;
         this.userRepository = userRepository;
     }
-    public User addUser(User user) {
-        return userRepository.save(user);
+    public UserDTO addUser(User user) {
+        //Faltan todas las validaciones, encriptacion y manejo de errores
+        //Validaciones podrian estar en otro metodo dentro del service -> public User verifyUser(User user)
+        UserDTO userDTO = userMapper.toUserDTO(user);
+
+        userRepository.save(user);
+        return userDTO;
     }
 
 }
