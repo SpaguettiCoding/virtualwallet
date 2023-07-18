@@ -1,5 +1,6 @@
 package com.alkemy.cysjava.virtualwallet.controllers;
 
+import com.alkemy.cysjava.virtualwallet.DTOs.UserCreationDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.UserDTO;
 import com.alkemy.cysjava.virtualwallet.models.User;
 import com.alkemy.cysjava.virtualwallet.service.UserService;
@@ -18,8 +19,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> addUser(@RequestBody User user) {
-        UserDTO newUserDTO = userService.addUser(user);
+    public ResponseEntity<UserCreationDTO> addUser(@RequestBody UserCreationDTO userDTO) {
+        UserCreationDTO newUserDTO = userService.addUser(userDTO);
         return new ResponseEntity<>(newUserDTO, HttpStatus.CREATED);
     }
 

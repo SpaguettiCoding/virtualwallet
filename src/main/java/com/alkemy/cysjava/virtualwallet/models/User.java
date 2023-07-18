@@ -3,6 +3,7 @@ package com.alkemy.cysjava.virtualwallet.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,11 +24,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Pattern(regexp = "[a-zA-Z]")
+    //@Pattern(regexp = "[a-zA-Z]")
     @NotBlank
     private String firstName;
 
-    @Pattern(regexp = "[a-zA-Z]")
+    //@Pattern(regexp = "[a-zA-Z]")
     @NotBlank
     private String lastName;
 
@@ -35,11 +36,9 @@ public class User {
     @NotBlank
     private String email;
 
-    @NotBlank
     private String password;
 
-    @NotBlank
-    @OneToOne
+    @ManyToOne
     private Role role;
 
     private Timestamp creationDate;
