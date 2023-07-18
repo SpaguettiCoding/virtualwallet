@@ -23,5 +23,10 @@ public class UserController {
         return new ResponseEntity<>(newUserDTO, HttpStatus.CREATED);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<UserDTO> deleteUserById(@RequestParam User id) {
+
+    }
+
 }
 
