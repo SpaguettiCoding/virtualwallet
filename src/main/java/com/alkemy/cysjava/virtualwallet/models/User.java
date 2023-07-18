@@ -23,11 +23,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Pattern(regexp = "[a-zA-Z]")
+    @Pattern(regexp="^[A-Za-z]*$",message = "Invalid Input")
     @NotBlank
     private String firstName;
 
-    @Pattern(regexp = "[a-zA-Z]")
+    @Pattern(regexp="^[A-Za-z]*$",message = "Invalid Input")
     @NotBlank
     private String lastName;
 
