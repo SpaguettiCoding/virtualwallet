@@ -31,4 +31,19 @@ CREATE TABLE IF NOT EXISTS `virtualwallet`.`user` (
     REFERENCES `virtualwallet`.`role` (`id`))
 ;
 
+CREATE TABLE IF NOT EXISTS `virtualwallet`.`account` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `balance` DOUBLE NOT NULL,
+  `soft_delete` BIT(1) NOT NULL,
+  `transaction_limit` DOUBLE NOT NULL,
+  `user_id` INT NULL DEFAULT NULL,
+  `creation_date` DATETIME(6) NULL DEFAULT NULL,
+  `update_date` DATETIME(6) NULL DEFAULT NULL,
+  `currency` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `FK7m8ru44m93ukyb61dfxw0apf6` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `FK7m8ru44m93ukyb61dfxw0apf6`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `virtualwallet`.`user` (`id`))
+
 
