@@ -9,6 +9,8 @@ import com.alkemy.cysjava.virtualwallet.models.User;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,6 +40,20 @@ public class UserService {
         user.setCreationDate(new Timestamp(System.currentTimeMillis()));
         User createdUser = userRepository.save(user);
         return userMapper.toUserDTO(createdUser);
+    }
+
+//    public List<User> findAllUser() { return userRepository.findAll(); }
+
+    public List<UserDTO> findAllUserDTO() {
+        List<User> user = userRepository.findAll();
+        List<UserDTO> userDTO = new ArrayList<>();
+        for (User user1 : user) {
+            if (user1 != null) {
+                UserDTO dto = userMapper.toUserDTO(user1);
+                userDTO.add(dto);
+            }
+        }
+        return userDTO;
     }
 
 }
