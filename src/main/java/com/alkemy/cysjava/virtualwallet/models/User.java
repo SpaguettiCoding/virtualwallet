@@ -25,19 +25,25 @@ public class User {
     private int id;
 
     //@Pattern(regexp="^[A-Za-z]*$",message = "Invalid Input")
+    @NotNull
     @NotBlank
     private String firstName;
 
     //@Pattern(regexp="^[A-Za-z]*$",message = "Invalid Input")
+    @NotNull
     @NotBlank
     private String lastName;
 
     @Email
+    @NotNull
     @NotBlank
     private String email;
 
+    @NotNull
+    @NotBlank
     private String password;
 
+    @NotNull
     @ManyToOne
     private Role role;
 

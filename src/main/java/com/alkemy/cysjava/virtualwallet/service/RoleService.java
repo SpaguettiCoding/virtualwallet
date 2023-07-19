@@ -4,6 +4,8 @@ import com.alkemy.cysjava.virtualwallet.models.Role;
 import com.alkemy.cysjava.virtualwallet.repositories.RoleRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class RoleService {
     private final RoleRepository roleRepository;
@@ -11,7 +13,7 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public Role findRoleByName(String roleName){
+    public Optional<Role> findRoleByName(String roleName){
         return roleRepository.findByName(roleName);
     }
 

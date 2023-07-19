@@ -2,6 +2,7 @@ package com.alkemy.cysjava.virtualwallet.mappers;
 
 import com.alkemy.cysjava.virtualwallet.DTOs.UserCreationDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.UserDTO;
+import com.alkemy.cysjava.virtualwallet.exceptions.ResourceNotFoundException;
 import com.alkemy.cysjava.virtualwallet.models.User;
 import com.alkemy.cysjava.virtualwallet.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class UserMapper {
         user.setFirstName(dto.getFirstname());
         user.setLastName(dto.getLastname());
         user.setPassword(dto.getPassword());
-        user.setRole(roleService.findRoleByName(dto.getRole()));
+        user.setRole(roleService.findRoleByName(dto.getRole()).orElseThrow(() -> new ResourceNotFoundException("Role Not Found")));
 
         return user;
     }

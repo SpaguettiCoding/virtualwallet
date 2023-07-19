@@ -2,8 +2,8 @@ package com.alkemy.cysjava.virtualwallet.controllers;
 
 import com.alkemy.cysjava.virtualwallet.DTOs.UserCreationDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.UserDTO;
-import com.alkemy.cysjava.virtualwallet.models.User;
 import com.alkemy.cysjava.virtualwallet.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +19,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserCreationDTO> addUser(@RequestBody UserCreationDTO userDTO) {
-        UserCreationDTO newUserDTO = userService.addUser(userDTO);
+    public ResponseEntity<UserDTO> addUser(@RequestBody @Valid UserCreationDTO userCreationDTO) {
+        UserDTO newUserDTO = userService.addUser(userCreationDTO);
         return new ResponseEntity<>(newUserDTO, HttpStatus.CREATED);
     }
 
