@@ -31,12 +31,12 @@ public class UserController {
         return new ResponseEntity<>(newUserDTO, HttpStatus.CREATED);
     }
 
-<<<<<<< HEAD
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Object> deleteUserById(@PathVariable("id") Integer id) {
+    public ResponseEntity<String> deleteUserById(@PathVariable("id") Long id) {
         userService.deleteUserById(id);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
-=======
+        return new ResponseEntity<>("Se eliminó usurio con id" + id, HttpStatus.OK);
+    }
+
 //    @GetMapping("/all")
 //    public ResponseEntity<List<User>> getAllUser () {
 //        List<User> user = userService.findAllUser();
@@ -44,11 +44,8 @@ public class UserController {
 //    }
 
     @GetMapping("/users")
-    public ResponseEntity<List<UserDTO>> getAllUserDTO () {
+    public ResponseEntity<List<UserDTO>> getAllUserDTO() {
         List<UserDTO> userDTO = userService.findAllUserDTO();
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
->>>>>>> 0de9fcfd6e55fba5a0472399dbe62bc9d1eb8887
     }
-
 }
-

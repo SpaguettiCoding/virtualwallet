@@ -56,8 +56,13 @@ public class UserService {
         return userDTO;
     }
 
-    public void deleteUserById(Integer id) {
-        userRepository.deleteById(id);
+    public boolean deleteUserById(Long id) {
+        try{
+            userRepository.deleteById(id);
+            return true;
+        }catch(Exception err){
+            return false;
+        }
     }
 
 }
