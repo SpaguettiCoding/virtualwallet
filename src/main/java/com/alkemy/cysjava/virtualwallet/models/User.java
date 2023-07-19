@@ -22,7 +22,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     //@Pattern(regexp="^[A-Za-z]*$",message = "Invalid Input")
     @NotNull
@@ -56,7 +56,7 @@ public class User {
 //    @OneToMany(mappedBy = "user")
 //    private List<Account> account;
 
-    public User(int id, String firstName, String lastName, String email, String password, Role role, Timestamp creationDate, Timestamp updateDate, boolean softDelete) {
+    public User(Long id, String firstName, String lastName, String email, String password, Role role, Timestamp creationDate, Timestamp updateDate, boolean softDelete) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
