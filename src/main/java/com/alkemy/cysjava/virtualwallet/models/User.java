@@ -1,20 +1,17 @@
 package com.alkemy.cysjava.virtualwallet.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.sql.Timestamp;
-import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "user")
 public class User {
@@ -23,15 +20,22 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    //@Pattern(regexp="^[A-Za-z]*$",message = "Invalid Input")
+    @NotNull
     @NotBlank
     private String firstName;
 
+    //@Pattern(regexp="^[A-Za-z]*$",message = "Invalid Input")
+    @NotNull
     @NotBlank
     private String lastName;
 
+    @Email
+    @NotNull
     @NotBlank
     private String email;
 
+    @NotNull
     @NotBlank
     private String password;
 
@@ -45,8 +49,8 @@ public class User {
 
     private boolean softDelete;
 
-    @OneToMany(mappedBy = "user")
-    private List<Account> account;
+//    @OneToMany(mappedBy = "user")
+//    private List<Account> account;
 
     public User(int id, String firstName, String lastName, String email, String password, Role role, Timestamp creationDate, Timestamp updateDate, boolean softDelete) {
         this.id = id;
