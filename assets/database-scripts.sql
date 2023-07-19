@@ -31,4 +31,6 @@ CREATE TABLE IF NOT EXISTS `virtualwallet`.`user` (
     REFERENCES `virtualwallet`.`role` (`id`))
 ;
 
+--INSERTS de Usuarios / Seed Data
+
 

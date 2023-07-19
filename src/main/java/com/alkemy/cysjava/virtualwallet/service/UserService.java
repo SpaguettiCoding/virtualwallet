@@ -31,4 +31,8 @@ public class UserService {
         return userDTO;
     }
 
+    public void deleteUserById(Integer id) {
+        userRepository.deleteById(id);
+    }
+
 }
