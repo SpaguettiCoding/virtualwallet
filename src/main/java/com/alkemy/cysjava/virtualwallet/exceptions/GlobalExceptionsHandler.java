@@ -26,9 +26,9 @@ public class GlobalExceptionsHandler extends ResponseEntityExceptionHandler {
     }
 
     // Exception cuando la entidad ya existe en la base de datos
-    @ExceptionHandler(EntityAlreadyExistsException.class)
+    @ExceptionHandler(BadRequestException.class)
     protected ResponseEntity<Object> handleUserAlreadyExists(
-            EntityAlreadyExistsException ex, WebRequest request
+            BadRequestException ex, WebRequest request
     ){
         return new ResponseEntity<>(new ApiException(Collections.singletonList(ex.getMessage())), HttpStatus.BAD_REQUEST);
     }
