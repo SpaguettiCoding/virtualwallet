@@ -1,12 +1,12 @@
 package com.alkemy.cysjava.virtualwallet.models;
 
+import com.alkemy.cysjava.virtualwallet.models.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
@@ -16,21 +16,29 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "role")
-public class Role {
+@Table(name = "account")
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @NotBlank
-    private String name;
+    private String currency;
 
     @NotNull
-    private String description;
+    private double transactionLimit;
 
     @NotNull
+    private double balance;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     private Timestamp creationDate;
-
-    @NotNull
+    
     private Timestamp updateDate;
+
+    private boolean softDelete;
+
 }
