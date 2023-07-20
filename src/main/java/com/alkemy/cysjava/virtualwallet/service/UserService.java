@@ -55,6 +55,16 @@ public class UserService {
         return userDTO;
     }
 
+    public UserDTO findUserById(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if(!optionalUser.isPresent()) {
+            throw new ResourceNotFoundException("User not found");
+        }
+        User user = optionalUser.get();
+        return userMapper.toUserDTO(user);
+    }
+
     public UserDTO updateUser(Long id, UserUpdateDTO userUpdateDTO) {
         //Valido que userUpdateDTO no sea un objeto vacío
         if(userUpdateDTO.getFirstname() == null && userUpdateDTO.getLastname() == null && userUpdateDTO.getPassword() == null){
