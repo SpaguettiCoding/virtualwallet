@@ -33,7 +33,6 @@ public class AccountMapper {
         Account account = new Account();
         account.setCurrency(dto.getCurrency());
         account.setUser(userService.findById(dto.getUser()).orElseThrow(() -> new ResourceNotFoundException("User Not Found")));
-
         return account;
     }
 }

@@ -2,6 +2,7 @@ package com.alkemy.cysjava.virtualwallet.service;
 
 import com.alkemy.cysjava.virtualwallet.DTOs.AccountCreationDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.AccountDTO;
+import com.alkemy.cysjava.virtualwallet.exceptions.BadRequestException;
 import com.alkemy.cysjava.virtualwallet.mappers.AccountMapper;
 import com.alkemy.cysjava.virtualwallet.models.Account;
 import com.alkemy.cysjava.virtualwallet.repositories.AccountRepository;
@@ -24,7 +25,12 @@ public class AccountService {
 
     public AccountDTO addAccount(AccountCreationDTO accountCreationDTO) {
 
-        accountCreationDTO.setCurrency(accountCreationDTO.getCurrency().trim());
+        if(accountCreationDTO.getCurrency().equals("ars") || accountCreationDTO.getCurrency().equals("usd")) {
+            accountCreationDTO.setCurrency(accountCreationDTO.getCurrency().trim());
+        } else {
+            throw new BadRequestException("Currency needs to be ARS or USD");
+        }
+
         accountCreationDTO.setUser(accountCreationDTO.getUser());
 
         Account account = accountMapper.toAccount(accountCreationDTO);
