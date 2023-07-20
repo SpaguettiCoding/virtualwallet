@@ -27,11 +27,9 @@ public class Account {
     private String currency;
 
     @NotNull
-    @NotBlank
     private Double transactionLimit;
 
     @NotNull
-    @NotBlank
     private Double balance;
 
     @NotNull

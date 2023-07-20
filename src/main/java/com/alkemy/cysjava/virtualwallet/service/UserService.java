@@ -54,9 +54,10 @@ public class UserService {
         }
         return userDTO;
     }
-    
-    public Optional<User> findUserById(Long id) {
+
+    public Optional<User> findById(Long id) {
         return userRepository.findUserById(id);
+        //return userRepository.findById(id);
     }
 
     public UserDTO updateUser(Long id, UserUpdateDTO userUpdateDTO) {

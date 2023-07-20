@@ -7,7 +7,9 @@ import com.alkemy.cysjava.virtualwallet.models.Account;
 import com.alkemy.cysjava.virtualwallet.service.AccountService;
 import com.alkemy.cysjava.virtualwallet.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AccountMapper {
 
     @Autowired
@@ -30,7 +32,7 @@ public class AccountMapper {
     public Account toAccount(AccountCreationDTO dto) {
         Account account = new Account();
         account.setCurrency(dto.getCurrency());
-        account.setUser(userService.findUserById(dto.getUser()).orElseThrow(() -> new ResourceNotFoundException("User Not Found")));
+        account.setUser(userService.findById(dto.getUser()).orElseThrow(() -> new ResourceNotFoundException("User Not Found")));
 
         return account;
     }

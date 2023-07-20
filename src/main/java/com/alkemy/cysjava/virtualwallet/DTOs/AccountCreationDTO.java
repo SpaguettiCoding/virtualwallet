@@ -18,6 +18,5 @@ public class AccountCreationDTO {
     private String currency;
 
     @NotNull(message = "currency can't be null")
-    @NotBlank(message = "currency can't be empty")
     private Long user;
 }
