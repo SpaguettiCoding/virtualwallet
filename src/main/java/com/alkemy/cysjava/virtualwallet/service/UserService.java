@@ -55,12 +55,13 @@ public class UserService {
         return userDTO;
     }
 
-    public boolean deleteUserById(Long id) {
-        try{
+    public void deleteUserById(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if(!optionalUser.isPresent()){
+            throw new ResourceNotFoundException("El usuario no existe.");
+        }else{
             userRepository.deleteById(id);
-            return true;
-        }catch(Exception err){
-            return false;
         }
     }
 
