@@ -32,5 +32,7 @@ CREATE TABLE IF NOT EXISTS `virtualwallet`.`user` (
 ;
 
 --INSERTS de Usuarios / Seed Data
-INSERT INTO user (creation_date, update_date, email, first_name, last_name, password) VALUES (NOW(), NOW(), "example@email", "name", "surname", "1234");
+INSERT INTO user (role_id, soft_delete, creation_date, update_date, email, first_name, last_name, password) VALUES (1, 0, NOW(), NOW(), "example@email.admin", "nameAdmin", "surnameAdmin", "1234a");
+INSERT INTO user (role_id, soft_delete, creation_date, update_date, email, first_name, last_name, password) VALUES (2, 0, NOW(), NOW(), "example@email.user", "nameUser", "surnameUser", "1234u");
+
 
