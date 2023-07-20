@@ -61,7 +61,9 @@ public class UserService {
         if(!optionalUser.isPresent()){
             throw new ResourceNotFoundException("El usuario no existe.");
         }else{
-            userRepository.deleteById(id);
+            User user = optionalUser.get();
+            user.setSoftDelete(true);
+            userRepository.save(user);
         }
     }
 
