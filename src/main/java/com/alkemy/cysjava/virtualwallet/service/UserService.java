@@ -55,6 +55,10 @@ public class UserService {
         return userDTO;
     }
 
+    public Optional<User> findById(Long id) {
+        return userRepository.findUserById(id);
+    }
+
     public UserDTO updateUser(Long id, UserUpdateDTO userUpdateDTO) {
         //Valido que userUpdateDTO no sea un objeto vacío
         if(userUpdateDTO.getFirstname() == null && userUpdateDTO.getLastname() == null && userUpdateDTO.getPassword() == null){
