@@ -59,6 +59,18 @@ public class UserService {
         return userRepository.findUserById(id);
     }
 
+    public void deleteUserById(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if(!optionalUser.isPresent()){
+            throw new ResourceNotFoundException("El usuario no existe.");
+        }else{
+            User user = optionalUser.get();
+            user.setSoftDelete(true);
+            userRepository.save(user);
+        }
+    }
+
     public UserDTO updateUser(Long id, UserUpdateDTO userUpdateDTO) {
         //Valido que userUpdateDTO no sea un objeto vacío
         if(userUpdateDTO.getFirstname() == null && userUpdateDTO.getLastname() == null && userUpdateDTO.getPassword() == null){
@@ -100,4 +112,5 @@ public class UserService {
         userRepository.save(user);
         return userMapper.toUserDTO(user);
     }
+
 }
