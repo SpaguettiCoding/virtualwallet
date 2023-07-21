@@ -40,7 +40,7 @@ public class User {
     private String password;
 
     @NotNull
-    @OneToOne
+    @ManyToOne
     private Role role;
 
     private Timestamp creationDate;
@@ -52,15 +52,4 @@ public class User {
 //    @OneToMany(mappedBy = "user")
 //    private List<Account> account;
 
-    public User(Long id, String firstName, String lastName, String email, String password, Role role, Timestamp creationDate, Timestamp updateDate, boolean softDelete) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.creationDate = creationDate;
-        this.updateDate = updateDate;
-        this.softDelete = softDelete;
-    }
 }
