@@ -34,4 +34,16 @@ public class UserController {
         userService.deleteUserById(id);
         return new ResponseEntity<>("Se eliminó el usuario con id" + id, HttpStatus.OK);
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserUpdateDTO userUpdateDTO) {
+        UserDTO newUserDTO = userService.updateUser(id, userUpdateDTO);
+        return new ResponseEntity<>(newUserDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<UserDTO>> getAllUserDTO () {
+        List<UserDTO> userDTO = userService.findAllUserDTO();
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
 }

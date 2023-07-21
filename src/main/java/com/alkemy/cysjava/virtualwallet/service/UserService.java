@@ -55,6 +55,9 @@ public class UserService {
         return userDTO;
     }
 
+    public Optional<User> findById(Long id) {
+        return userRepository.findUserById(id);
+    }
 
     public void deleteUserById(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
