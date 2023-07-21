@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -58,11 +57,27 @@ public class UserService {
     public UserDTO findUserById(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
 
-        if(!optionalUser.isPresent()) {
+        if (!optionalUser.isPresent()) {
             throw new ResourceNotFoundException("User not found");
         }
         User user = optionalUser.get();
         return userMapper.toUserDTO(user);
+    }
+
+    public Optional<User> findById(Long id) {
+        return userRepository.findUserById(id);
+    }
+
+    public void deleteUserById(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if(!optionalUser.isPresent()){
+            throw new ResourceNotFoundException("El usuario no existe.");
+        }else{
+            User user = optionalUser.get();
+            user.setSoftDelete(true);
+            userRepository.save(user);
+        }
     }
 
     public UserDTO updateUser(Long id, UserUpdateDTO userUpdateDTO) {
@@ -106,4 +121,5 @@ public class UserService {
         userRepository.save(user);
         return userMapper.toUserDTO(user);
     }
+
 }

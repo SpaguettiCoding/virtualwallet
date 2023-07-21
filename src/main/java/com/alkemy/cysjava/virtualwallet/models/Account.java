@@ -20,17 +20,19 @@ import java.sql.Timestamp;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
+    @NotNull
     @NotBlank
     private String currency;
 
     @NotNull
-    private double transactionLimit;
+    private Double transactionLimit;
 
     @NotNull
-    private double balance;
+    private Double balance;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
