@@ -35,4 +35,11 @@ public class AccountMapper {
         account.setUser(userService.findById(dto.getUser()).orElseThrow(() -> new ResourceNotFoundException("User Not Found")));
         return account;
     }
+
+    public Account toAccount1(AccountDTO dto) {
+        Account account = new Account();
+        account.setCurrency(dto.getCurrency());
+        account.setUser(userService.findById(dto.getUser()).orElseThrow(() -> new ResourceNotFoundException("User Not Found")));
+        return account;
+    }
 }
