@@ -1,8 +1,8 @@
 package com.alkemy.cysjava.virtualwallet.models;
 
-import com.alkemy.cysjava.virtualwallet.models.Accounts;
-import com.alkemy.cysjava.virtualwallet.enums.TransactionType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,24 +16,25 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Entity
 @Table(name="transactions")
-public class Transactions {
+public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @Column(nullable = false)
-    private double amount;
+    @NotNull
+    private Double amount;
 
-    @Column(nullable = false)
-    private TransactionType type;
+    @NotNull
+    @NotBlank
+    private String transactionType;
 
-    @Column(nullable = false)
     private String description;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "account_id")
-    private Accounts account;
+    private Account account;
 
     private Timestamp transactionDate;
 }
