@@ -63,12 +63,22 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findById(id);
 
         if(!optionalUser.isPresent()){
-            throw new ResourceNotFoundException("El usuario no existe.");
+            throw new ResourceNotFoundException("User not found");
         }else{
             User user = optionalUser.get();
             user.setSoftDelete(true);
             userRepository.save(user);
         }
+    }
+
+    public UserDTO findUserById(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if (!optionalUser.isPresent()) {
+            throw new ResourceNotFoundException("User not found");
+        }
+        User user = optionalUser.get();
+        return userMapper.toUserDTO(user);
     }
 
     public UserDTO updateUser(Long id, UserUpdateDTO userUpdateDTO) {

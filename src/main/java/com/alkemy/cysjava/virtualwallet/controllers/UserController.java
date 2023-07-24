@@ -3,6 +3,7 @@ package com.alkemy.cysjava.virtualwallet.controllers;
 import com.alkemy.cysjava.virtualwallet.DTOs.UserCreationDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.UserDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.UserUpdateDTO;
+import com.alkemy.cysjava.virtualwallet.exceptions.ResourceNotFoundException;
 import com.alkemy.cysjava.virtualwallet.mappers.UserMapper;
 import com.alkemy.cysjava.virtualwallet.service.UserService;
 import jakarta.validation.Valid;
@@ -45,5 +46,16 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> getAllUserDTO () {
         List<UserDTO> userDTO = userService.findAllUserDTO();
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id){
+        try {
+            UserDTO userDTO = userService.findUserById(id);
+            return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        }
+        catch(ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
