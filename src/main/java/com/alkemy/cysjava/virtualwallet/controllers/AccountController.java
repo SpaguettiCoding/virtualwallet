@@ -2,6 +2,7 @@ package com.alkemy.cysjava.virtualwallet.controllers;
 
 import com.alkemy.cysjava.virtualwallet.DTOs.AccountCreationDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.AccountDTO;
+import com.alkemy.cysjava.virtualwallet.DTOs.AccountUpdateDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.UserDTO;
 import com.alkemy.cysjava.virtualwallet.service.AccountService;
 import jakarta.validation.Valid;
@@ -29,5 +30,11 @@ public class AccountController {
     public ResponseEntity<List<AccountDTO>> getAccountByUser(@PathVariable Long userId){
         List<AccountDTO> accountsDTO = accountService.findAccountsByUser(userId);
         return new ResponseEntity<>(accountsDTO, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<AccountDTO> updateAccount(@PathVariable Long id, @RequestBody @Valid AccountUpdateDTO accountUpdateDTO){
+        AccountDTO newAccountDTO = accountService.updateAccount(id, accountUpdateDTO);
+        return new ResponseEntity<>(newAccountDTO, HttpStatus.OK);
     }
 }
