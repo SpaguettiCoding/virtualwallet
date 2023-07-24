@@ -1,0 +1,28 @@
+
+.ServicesWrapper {
+   
+    border-radius: 5px;
+    margin-top: 1.5em;
+    background-color: rgba(60,60,60,0.2);
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    
+}
+
+.ServicesList {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.3em;
+}
+
+.ServicesList span {
+   margin: 0.3em;
+   font-size: 0.8rem;
+   cursor: pointer;
+   
+}
+
+
+.servicesBody {
+    width: 100%;
+}

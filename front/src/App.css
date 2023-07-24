@@ -1,0 +1,41 @@
+* {
+  overflow: hidden;
+
+}
+
+.App {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.Wallet {
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  display: flex;
+  border-radius: 10px;
+
+
+}
+
+.SideBar {
+  flex: 1;
+  background-color: rgba(40,40,40,0.8);
+  height: 99vh;
+}
+
+.ProfileCards {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.BodyWallet {
+  width: 85%;
+  height: 98vh;
+  flex: 4;
+
+}
