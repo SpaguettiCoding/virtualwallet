@@ -1,0 +1,4 @@
+Para hacerlo andar en VSC:
+
+npm install
+npm run dev
