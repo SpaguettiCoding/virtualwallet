@@ -25,7 +25,7 @@ public class FixedTermDeposit {
     @NotNull
     private double amount;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @NotNull
     @JoinColumn(name = "account_id")
     private Account account;
@@ -37,14 +37,4 @@ public class FixedTermDeposit {
 
     private Timestamp closingDate;
 
-    public void setClosingDate(Timestamp closingDate) {
-        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-        Timestamp minimumClosingDate = Timestamp.from(currentTimestamp.toInstant().plus(30, ChronoUnit.DAYS));
-
-        if (closingDate == null  || closingDate.before(minimumClosingDate)) {
-            this.closingDate = minimumClosingDate;
-        } else {
-            this.closingDate = closingDate;
-        }
-    }
 }

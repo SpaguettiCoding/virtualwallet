@@ -91,4 +91,8 @@ public class AccountService {
         accountRepository.save(account);
         return accountMapper.toAccountDTO(account);
     }
+
+    public Optional<Account> findOne(Long id){
+       return accountRepository.findById(id);
+    }
 }
