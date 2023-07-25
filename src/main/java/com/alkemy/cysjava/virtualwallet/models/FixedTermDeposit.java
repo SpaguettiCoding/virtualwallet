@@ -26,6 +26,7 @@ public class FixedTermDeposit {
     private double amount;
 
     @ManyToOne
+    @NotNull
     @JoinColumn(name = "account_id")
     private Account account;
 
