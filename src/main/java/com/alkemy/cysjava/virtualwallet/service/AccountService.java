@@ -2,6 +2,7 @@ package com.alkemy.cysjava.virtualwallet.service;
 
 import com.alkemy.cysjava.virtualwallet.DTOs.AccountCreationDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.AccountDTO;
+import com.alkemy.cysjava.virtualwallet.DTOs.AccountUpdateDTO;
 import com.alkemy.cysjava.virtualwallet.exceptions.BadRequestException;
 import com.alkemy.cysjava.virtualwallet.exceptions.ResourceNotFoundException;
 import com.alkemy.cysjava.virtualwallet.mappers.AccountMapper;
@@ -78,5 +79,24 @@ public class AccountService {
         return accountRepository.findById(id);
     }
 
+    public AccountDTO updateAccount(Long id, AccountUpdateDTO accountUpdateDTO) {
 
+        Optional<Account> OptionalAccount = accountRepository.findById(id);
+
+        if(!OptionalAccount.isPresent()){
+            throw new ResourceNotFoundException("Account not found");
+        }
+
+        Account account = OptionalAccount.get();
+
+            accountUpdateDTO.setTransactionLimit(accountUpdateDTO.getTransactionLimit());
+            account.setTransactionLimit(accountUpdateDTO.getTransactionLimit());
+
+        accountRepository.save(account);
+        return accountMapper.toAccountDTO(account);
+    }
+
+    public Optional<Account> findOne(Long id){
+       return accountRepository.findById(id);
+    }
 }
