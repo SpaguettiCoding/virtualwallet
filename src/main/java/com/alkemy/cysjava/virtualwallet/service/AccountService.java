@@ -74,5 +74,9 @@ public class AccountService {
         return accountDTO;
     }
 
+    public Optional<Account> findOne(Long id){
+        return accountRepository.findById(id);
+    }
+
 
 }

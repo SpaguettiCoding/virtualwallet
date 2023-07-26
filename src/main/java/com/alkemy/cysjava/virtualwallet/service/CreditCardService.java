@@ -17,21 +17,21 @@ public class CreditCardService {
 
     private final CreditCardMapper creditCardMapper;
     private final CreditCardRepository creditCardRepository;
-    private final AccountRepository accountRepository;
+    private final AccountService accountService;
 
 
     @Autowired
-    public CreditCardService(CreditCardMapper creditCardMapper, CreditCardRepository creditCardRepository, AccountRepository accountRepository) {
+    public CreditCardService(CreditCardMapper creditCardMapper, CreditCardRepository creditCardRepository, AccountService accountService) {
         this.creditCardRepository = creditCardRepository;
         this.creditCardMapper = creditCardMapper;
-        this.accountRepository = accountRepository;
+        this.accountService = accountService;
     }
 
     public CreditCard createCreditCard(CreditCardCreationDTO creditCardDTO) {
         CreditCard creditCard = creditCardMapper.toCreditCard(creditCardDTO);
         creditCard.setAmount(0);
         setClosingDateOneMonthAfterCreation(creditCard);
-        Account account = accountRepository.findById(creditCardDTO.getAccountId()).orElse(null);
+        Account account = accountService.findOne(creditCardDTO.getAccountId()).orElse(null);
         if (account != null) {
             String fullName = account.getUser().getFirstName() + " " + account.getUser().getLastName();
             creditCard.setName(fullName);
