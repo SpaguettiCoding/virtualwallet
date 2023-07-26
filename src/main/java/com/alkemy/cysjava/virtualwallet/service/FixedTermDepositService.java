@@ -101,7 +101,7 @@ public class FixedTermDepositService {
         //double interestGenerated = days * interest;
         //System.out.println(interestGenerated);
 
-        //--Calculate the total amount to be received
+        //--Calculo el monto total
         double totalAmount = fixedTermDepositDTO.getAmount() + interestEarned;
         fixedTermDepositDTO.setTotalAmount(totalAmount);
         return fixedTermDepositDTO;
