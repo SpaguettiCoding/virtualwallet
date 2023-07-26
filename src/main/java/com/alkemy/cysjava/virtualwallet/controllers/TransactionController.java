@@ -20,13 +20,11 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
-    TransactionMapper transactionMapper;
-
     @PostMapping("/deposit")
     public ResponseEntity<TransactionDepositDTO> depositToAccount(@RequestBody @Valid TransactionDepositDTO transactionDepositDTO){
         try {
             if (transactionDepositDTO.getAmount() >= 0) {
-                Transaction transaction = transactionMapper.toTransaction(transactionService.depositToAccount(transactionDepositDTO));
+                transactionService.depositToAccount(transactionDepositDTO);
                 return new ResponseEntity<>(transactionDepositDTO, HttpStatus.ACCEPTED);
             } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
