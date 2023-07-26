@@ -75,6 +75,10 @@ public class AccountService {
         return accountDTO;
     }
 
+    public Optional<Account> findOne(Long id){
+        return accountRepository.findById(id);
+    }
+
     public AccountDTO updateAccount(Long id, AccountUpdateDTO accountUpdateDTO) {
 
         Optional<Account> OptionalAccount = accountRepository.findById(id);
