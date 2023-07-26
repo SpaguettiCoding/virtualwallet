@@ -1,21 +1,21 @@
 package com.alkemy.cysjava.virtualwallet.DTOs;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TransactionDTO {
+public class TransactionCreationDTO {
 
+    @NotNull(message = "amount can't be null or less than 0")
     private Double amount;
-    private String transactionType;
-    private String description;
-    private Timestamp transactionDate;
+
+    @NotNull(message = "account can't be null")
     private Long account;
 }

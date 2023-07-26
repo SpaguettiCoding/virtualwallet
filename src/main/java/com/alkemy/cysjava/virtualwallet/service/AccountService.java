@@ -95,7 +95,7 @@ public class AccountService {
 
             accountUpdateDTO.setTransactionLimit(accountUpdateDTO.getTransactionLimit());
             account.setTransactionLimit(accountUpdateDTO.getTransactionLimit());
-
+            account.setUpdateDate(new Timestamp(System.currentTimeMillis()));
         accountRepository.save(account);
         return accountMapper.toAccountDTO(account);
     }
