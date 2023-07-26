@@ -31,23 +31,9 @@ public class CreditCard {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
-    private Timestamp creationDate;
-    private Timestamp closingDate;
+    private LocalDateTime creationDate;
+    private LocalDateTime closingDate;
     private boolean softDelete;
 
-    public void setClosingDateOneMonthAfterCreation() {
-        if (creationDate != null) {
-            LocalDateTime currentDate = LocalDateTime.now();
 
-            LocalDate creationDateLocal = creationDate.toLocalDateTime().toLocalDate();
-            LocalDate currentDateLocal = currentDate.toLocalDate();
-
-            LocalDate closingDateLocal = creationDateLocal.plusMonths(1);
-
-            if (currentDateLocal.isAfter(closingDateLocal)) {
-                closingDateLocal = currentDateLocal.plusMonths(1);
-            }
-            closingDate = Timestamp.valueOf(closingDateLocal.atStartOfDay());
-        }
-    }
 }
