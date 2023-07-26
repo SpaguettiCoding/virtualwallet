@@ -1,7 +1,5 @@
 package com.alkemy.cysjava.virtualwallet.DTOs;
 
-
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,15 +11,11 @@ import java.sql.Timestamp;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FixedTermDepositCreationDTO {
+public class FixedTermDepositSimulateDTO {
 
-    @NotNull(message = "Investment amount can't be null.")
     private Double amount;
-
-    @NotNull(message = "The deposit must be from an account.")
-    private Long accountId;
-
-    @NotNull(message = "The deposit must have a closing date.")
+    private Timestamp creationDate;
     private Timestamp closingDate;
-
+    private Double interestEarned;
+    private Double totalAmount;
 }

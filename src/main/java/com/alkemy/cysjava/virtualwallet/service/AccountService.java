@@ -75,9 +75,12 @@ public class AccountService {
         return accountDTO;
     }
 
+    //Metodo repetido (ver Linea 102)
+    /*
     public Optional<Account> findOne(Long id){
         return accountRepository.findById(id);
     }
+    */
 
     public AccountDTO updateAccount(Long id, AccountUpdateDTO accountUpdateDTO) {
 
