@@ -23,7 +23,7 @@ public class FixedTermDeposit {
     private Long id;
 
     @NotNull
-    private double amount;
+    private Double amount;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @NotNull
@@ -31,7 +31,7 @@ public class FixedTermDeposit {
     private Account account;
 
     @NotNull
-    private double interest;
+    private Double interest;
 
     private Timestamp creationDate;
 
