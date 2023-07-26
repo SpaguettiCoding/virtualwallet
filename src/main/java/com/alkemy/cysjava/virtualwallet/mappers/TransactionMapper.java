@@ -22,4 +22,17 @@ public class TransactionMapper {
 
         return transactionDepositDTO;
     }
+
+    public Transaction toTransaction(TransactionDepositDTO transactionDepositDTO){
+        Transaction transaction = new Transaction();
+
+        transaction.setId(transactionDepositDTO.getId());
+        transaction.setAmount(transactionDepositDTO.getAmount());
+        transaction.setTransactionType(transactionDepositDTO.getTransactionType());
+        transaction.setDescription(transactionDepositDTO.getDescription());
+        transaction.setAccount(accountService.findAccountById(transactionDepositDTO.getAccountID()));
+        transaction.setTransactionDate(transactionDepositDTO.getTransactionDate());
+
+        return transaction;
+    }
 }
