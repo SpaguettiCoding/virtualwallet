@@ -83,7 +83,13 @@ public class FixedTermDepositService {
         }
 
         FixedTermDepositSimulateDTO fixedTermDepositDTO = new FixedTermDepositSimulateDTO();
-        fixedTermDepositDTO.setAmount(fixedTermDepositCreationSimulateDTO.getAmount());
+
+        if (fixedTermDepositCreationSimulateDTO.getAmount() > 0) {
+            fixedTermDepositDTO.setAmount(fixedTermDepositCreationSimulateDTO.getAmount());
+        } else {
+            throw new BadRequestException("amount must be greater than 0");
+        }
+
         fixedTermDepositDTO.setClosingDate(fixedTermDepositCreationSimulateDTO.getClosingDate());
 
         fixedTermDepositDTO.setCreationDate(new Timestamp(System.currentTimeMillis()));
