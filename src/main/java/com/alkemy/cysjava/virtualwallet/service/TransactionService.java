@@ -33,7 +33,8 @@ public class TransactionService {
             accountRepository.save(targetAccount);
             Transaction transaction = transactionMapper.toTransaction(transactionDepositDTO);
             transactionRepository.save(transaction);
-            return transactionDepositDTO;
+            TransactionDepositDTO transactionReceipt = transactionMapper.toTransactionDepositDTO(transaction);
+            return transactionReceipt;
         } else throw new BadRequestException("Transaction Over Limit");
     }
 }
