@@ -24,8 +24,8 @@ public class TransactionController {
     public ResponseEntity<TransactionDepositDTO> depositToAccount(@RequestBody @Valid TransactionDepositDTO transactionDepositDTO){
         try {
             if (transactionDepositDTO.getAmount() >= 0) {
-                transactionService.depositToAccount(transactionDepositDTO);
-                return new ResponseEntity<>(transactionDepositDTO, HttpStatus.ACCEPTED);
+                TransactionDepositDTO transactionReceipt = transactionService.depositToAccount(transactionDepositDTO);
+                return new ResponseEntity<>(transactionReceipt, HttpStatus.ACCEPTED);
             } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         catch(BadRequestException e) {
