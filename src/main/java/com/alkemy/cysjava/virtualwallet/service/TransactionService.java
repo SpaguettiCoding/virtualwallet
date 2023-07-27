@@ -91,26 +91,24 @@ public class TransactionService {
         return transactionDTO;
     }
 
-    public Map<String, List<TransactionDTO>> findTransactionsByUser(Long userId) {
+    public Map<String,List<TransactionDTO>> findTransactionsByUser(Long userId) {
         List<Account> accounts = accountRepository.findAccountsByUser(userId);
-        List<TransactionDTO> transactionsInUsd = new ArrayList<>();
-        List<TransactionDTO> transactionsInArs = new ArrayList<>();
+        Map<String,List<TransactionDTO>> map = new HashMap<>();
         for (Account account1 : accounts) {
-            if (account1 != null && account1.getCurrency() == "ars") {
+            if (account1 != null && account1.getCurrency().equals("ars")) {
                 Long accountId = account1.getId();
                 Account account = accountRepository.findById(accountId).orElseThrow(() -> new ResourceNotFoundException("Account not found"));
-                transactionsInArs = findTransactionsByAccount(accountId);
+                List<TransactionDTO> transactionsInArs = findTransactionsByAccount(accountId);
+                map.put("Transactions in Ars Account",transactionsInArs);
             } else {
-                if (account1 != null && account1.getCurrency() == "usd") {
+                if (account1 != null && account1.getCurrency().equals("usd")) {
                     Long accountId = account1.getId();
                     Account account = accountRepository.findById(accountId).orElseThrow(() -> new ResourceNotFoundException("Account not found"));
-                    transactionsInUsd = findTransactionsByAccount(accountId);
+                    List<TransactionDTO> transactionsInUsd = findTransactionsByAccount(accountId);
+                    map.put("Transactions in Usd Account",transactionsInUsd);
                 }
             }
         }
-        Map<String,List<TransactionDTO>> map = new HashMap();
-        map.put("Transactions in Ars Account",transactionsInArs);
-        map.put("Transactions in Usd Account",transactionsInArs);
         return map;
     }
 }
