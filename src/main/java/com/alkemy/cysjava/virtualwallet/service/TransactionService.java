@@ -7,6 +7,8 @@ import com.alkemy.cysjava.virtualwallet.models.Account;
 import com.alkemy.cysjava.virtualwallet.models.Transaction;
 import com.alkemy.cysjava.virtualwallet.repositories.AccountRepository;
 import com.alkemy.cysjava.virtualwallet.repositories.TransactionRepository;
+import org.hibernate.annotations.CurrentTimestamp;
+import org.hibernate.generator.internal.CurrentTimestampGeneration;
 import org.springframework.stereotype.Service;
 
 @Service
