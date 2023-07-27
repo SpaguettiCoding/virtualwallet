@@ -15,9 +15,7 @@ import com.alkemy.cysjava.virtualwallet.repositories.TransactionRepository;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class TransactionService {
@@ -91,5 +89,28 @@ public class TransactionService {
             }
         }
         return transactionDTO;
+    }
+
+    public Map<String, List<TransactionDTO>> findTransactionsByUser(Long userId) {
+        List<Account> accounts = accountRepository.findAccountsByUser(userId);
+        List<TransactionDTO> transactionsInUsd = new ArrayList<>();
+        List<TransactionDTO> transactionsInArs = new ArrayList<>();
+        for (Account account1 : accounts) {
+            if (account1 != null && account1.getCurrency() == "ars") {
+                Long accountId = account1.getId();
+                Account account = accountRepository.findById(accountId).orElseThrow(() -> new ResourceNotFoundException("Account not found"));
+                transactionsInArs = findTransactionsByAccount(accountId);
+            } else {
+                if (account1 != null && account1.getCurrency() == "usd") {
+                    Long accountId = account1.getId();
+                    Account account = accountRepository.findById(accountId).orElseThrow(() -> new ResourceNotFoundException("Account not found"));
+                    transactionsInUsd = findTransactionsByAccount(accountId);
+                }
+            }
+        }
+        Map<String,List<TransactionDTO>> map = new HashMap();
+        map.put("Transactions in Ars Account",transactionsInArs);
+        map.put("Transactions in Usd Account",transactionsInArs);
+        return map;
     }
 }

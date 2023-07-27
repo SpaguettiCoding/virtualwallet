@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -34,8 +35,8 @@ public class TransactionController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<TransactionDTO>> listTransactions(@PathVariable Long userId){
-        List<AccountDTO> accountsDTO = accountService.findAccountsByUser(userId);
-        accountsDTO.stream(.);
+    public ResponseEntity<Map<String,List<TransactionDTO>>> listTransactions(@PathVariable Long userId){
+        Map<String,List<TransactionDTO>> transactionsByUser = transactionService.findTransactionsByUser(userId);
+        return new ResponseEntity<>(transactionsByUser, HttpStatus.OK);
     }
 }
