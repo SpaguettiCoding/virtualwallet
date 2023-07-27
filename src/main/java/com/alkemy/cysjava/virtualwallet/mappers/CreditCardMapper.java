@@ -1,6 +1,7 @@
 package com.alkemy.cysjava.virtualwallet.mappers;
 
 import com.alkemy.cysjava.virtualwallet.DTOs.CreditCardCreationDTO;
+import com.alkemy.cysjava.virtualwallet.DTOs.CreditCardDTO;
 import com.alkemy.cysjava.virtualwallet.exceptions.ResourceNotFoundException;
 import com.alkemy.cysjava.virtualwallet.models.Account;
 import com.alkemy.cysjava.virtualwallet.models.CreditCard;
@@ -16,11 +17,23 @@ public class CreditCardMapper {
     @Autowired
     private AccountService accountService;
 
-    public CreditCardCreationDTO toCreditCardDTO(CreditCard creditCard) {
-        CreditCardCreationDTO dto = new CreditCardCreationDTO();
+    public CreditCardDTO toCreditCardDTO(CreditCard creditCard) {
+        CreditCardDTO dto = new CreditCardDTO();
+        dto.setId(creditCard.getId());
+        dto.setName(creditCard.getName());
         dto.setAmountAvailable(creditCard.getAmountAvailable());
         dto.setAmount(creditCard.getAmount());
-        dto.setAccountId(creditCard.getAccount() != null ? creditCard.getAccount().getId() : null);
+
+        // Map the Account entity to Account object if the CreditCard has an associated Account
+        if (creditCard.getAccount() != null) {
+            dto.setAccount(accountService.findOne(creditCard.getAccount().getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Account not found with ID: " + creditCard.getAccount().getId())));
+        }
+
+        // Set other fields from CreditCard entity if needed
+        dto.setCreationDate(creditCard.getCreationDate());
+        dto.setClosingDate(creditCard.getClosingDate());
+
         return dto;
     }
 
@@ -39,4 +52,5 @@ public class CreditCardMapper {
         creditCard.setCreationDate(LocalDateTime.now()); // Set creationDate here
         return creditCard;
     }
+
 }
