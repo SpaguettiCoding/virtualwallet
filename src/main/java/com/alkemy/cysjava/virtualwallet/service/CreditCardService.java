@@ -6,7 +6,8 @@ import com.alkemy.cysjava.virtualwallet.exceptions.ResourceNotFoundException;
 import com.alkemy.cysjava.virtualwallet.mappers.CreditCardMapper;
 import com.alkemy.cysjava.virtualwallet.models.Account;
 import com.alkemy.cysjava.virtualwallet.models.CreditCard;
-
+import com.alkemy.cysjava.virtualwallet.models.User;
+import com.alkemy.cysjava.virtualwallet.repositories.AccountRepository;
 import com.alkemy.cysjava.virtualwallet.repositories.CreditCardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -53,7 +54,6 @@ public class CreditCardService {
         return creditCardRepository.save(creditCard);
     }
 
-
     private void setClosingDateOneMonthAfterCreation(CreditCard creditCard) {
         if (creditCard.getCreationDate() != null) {
             LocalDateTime currentDate = LocalDateTime.now();
@@ -92,6 +92,8 @@ public class CreditCardService {
 
         return creditCardDTOs;
     }
+
+
 
 
 
