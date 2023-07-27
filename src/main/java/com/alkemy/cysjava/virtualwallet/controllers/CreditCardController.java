@@ -40,5 +40,11 @@ public class CreditCardController {
         }
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteCreditCardById(@PathVariable("id") Long id) {
+        creditCardService.deleteCreditCardById(id);
+        return new ResponseEntity<>("Deletion of CreditCard with ID number " + id + " was successful.", HttpStatus.OK);
+    }
+
 
 }

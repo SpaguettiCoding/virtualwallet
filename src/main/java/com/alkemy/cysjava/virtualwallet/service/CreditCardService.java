@@ -2,20 +2,16 @@ package com.alkemy.cysjava.virtualwallet.service;
 
 import com.alkemy.cysjava.virtualwallet.DTOs.CreditCardCreationDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.CreditCardDTO;
-import com.alkemy.cysjava.virtualwallet.DTOs.UserDTO;
 import com.alkemy.cysjava.virtualwallet.exceptions.ResourceNotFoundException;
 import com.alkemy.cysjava.virtualwallet.mappers.CreditCardMapper;
 import com.alkemy.cysjava.virtualwallet.models.Account;
 import com.alkemy.cysjava.virtualwallet.models.CreditCard;
-import com.alkemy.cysjava.virtualwallet.models.User;
-import com.alkemy.cysjava.virtualwallet.repositories.AccountRepository;
+
 import com.alkemy.cysjava.virtualwallet.repositories.CreditCardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -71,6 +67,21 @@ public class CreditCardService {
         }
     }
 
+    public void deleteCreditCardById(Long id) {
+        Optional<CreditCard> optionalCreditCard = creditCardRepository.findById(id);
+
+        if(!optionalCreditCard.isPresent()){
+            throw new ResourceNotFoundException("CreditCard not found");
+        }else{
+            CreditCard creditCard = optionalCreditCard.get();
+            creditCard.setSoftDelete(true);
+            creditCardRepository.save(creditCard);
+        }
+    }
+
+
+
+
     public List<CreditCardDTO> getAllCreditCards() {
         List<CreditCard> creditCards = creditCardRepository.findAll();
         List<CreditCardDTO> creditCardDTOs = new ArrayList<>();
@@ -81,6 +92,8 @@ public class CreditCardService {
 
         return creditCardDTOs;
     }
+
+
 
 
 
