@@ -3,10 +3,12 @@ package com.alkemy.cysjava.virtualwallet.service;
 import com.alkemy.cysjava.virtualwallet.DTOs.AccountCreationDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.AccountDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.AccountUpdateDTO;
+import com.alkemy.cysjava.virtualwallet.DTOs.UserDTO;
 import com.alkemy.cysjava.virtualwallet.exceptions.BadRequestException;
 import com.alkemy.cysjava.virtualwallet.exceptions.ResourceNotFoundException;
 import com.alkemy.cysjava.virtualwallet.mappers.AccountMapper;
 import com.alkemy.cysjava.virtualwallet.models.Account;
+import com.alkemy.cysjava.virtualwallet.models.Role;
 import com.alkemy.cysjava.virtualwallet.models.User;
 import com.alkemy.cysjava.virtualwallet.repositories.AccountRepository;
 import com.alkemy.cysjava.virtualwallet.repositories.UserRepository;
@@ -90,5 +92,9 @@ public class AccountService {
 
         accountRepository.save(account);
         return accountMapper.toAccountDTO(account);
+    }
+
+    public Optional<Account> findAccountById(Long id){
+        return accountRepository.findById(id);
     }
 }
