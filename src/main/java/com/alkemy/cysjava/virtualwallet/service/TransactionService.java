@@ -1,13 +1,16 @@
 package com.alkemy.cysjava.virtualwallet.service;
 
+import com.alkemy.cysjava.virtualwallet.DTOs.AccountDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.TransactionCreationDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.TransactionDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.TransactionSendMoneyDTO;
+import com.alkemy.cysjava.virtualwallet.DTOs.UserDTO;
 import com.alkemy.cysjava.virtualwallet.exceptions.BadRequestException;
 import com.alkemy.cysjava.virtualwallet.exceptions.ResourceNotFoundException;
 import com.alkemy.cysjava.virtualwallet.mappers.TransactionMapper;
 import com.alkemy.cysjava.virtualwallet.models.Account;
 import com.alkemy.cysjava.virtualwallet.models.Transaction;
+import com.alkemy.cysjava.virtualwallet.models.User;
 import com.alkemy.cysjava.virtualwallet.repositories.AccountRepository;
 import com.alkemy.cysjava.virtualwallet.repositories.TransactionRepository;
 import org.springframework.stereotype.Service;
@@ -60,6 +63,7 @@ public class TransactionService {
         return transactionMapper.toTransactionDTO(transactionCreated);
     }
 
+  
     public List<TransactionDTO> sendArs(TransactionSendMoneyDTO transactionSendMoneyDTO) {
         Account account = accountService.findAccountById(transactionSendMoneyDTO.getAccount());
         Account targetAccount = accountService.findAccountById(transactionSendMoneyDTO.getTargetAccount());
@@ -122,4 +126,54 @@ public class TransactionService {
         return transaction;
     }
 
+  
+    public List<TransactionDTO> findAllTransactionsDTO() {
+        List<Transaction> transaction = transactionRepository.findAll();
+        List<TransactionDTO> transactionDTO = new ArrayList<>();
+        for (Transaction transaction1 : transaction) {
+            if (transaction1 != null) {
+                TransactionDTO dto = transactionMapper.toTransactionDTO(transaction1);
+                transactionDTO.add(dto);
+            }
+        }
+        return transactionDTO;
+    }
+
+    public List<TransactionDTO> findTransactionsByAccount(Long accountId){
+        Account account = accountRepository.findById(accountId).orElseThrow(() -> new ResourceNotFoundException("Account not found"));
+
+        List<Transaction> transaction = transactionRepository.findTransactionsByAccount(accountId);
+        if (transaction.isEmpty()) {
+            throw new ResourceNotFoundException("No transactions found for the account");
+        }
+        List<TransactionDTO> transactionDTO = new ArrayList<>();
+        for (Transaction transaction1: transaction) {
+            if (transaction1 != null) {
+                TransactionDTO dto = transactionMapper.toTransactionDTO(transaction1);
+                transactionDTO.add(dto);
+            }
+        }
+        return transactionDTO;
+    }
+
+    public Map<String,List<TransactionDTO>> findTransactionsByUser(Long userId) {
+        List<Account> accounts = accountRepository.findAccountsByUser(userId);
+        Map<String,List<TransactionDTO>> map = new HashMap<>();
+        for (Account account1 : accounts) {
+            if (account1 != null && account1.getCurrency().equals("ars")) {
+                Long accountId = account1.getId();
+                Account account = accountRepository.findById(accountId).orElseThrow(() -> new ResourceNotFoundException("Account not found"));
+                List<TransactionDTO> transactionsInArs = findTransactionsByAccount(accountId);
+                map.put("Transactions in Ars Account",transactionsInArs);
+            } else {
+                if (account1 != null && account1.getCurrency().equals("usd")) {
+                    Long accountId = account1.getId();
+                    Account account = accountRepository.findById(accountId).orElseThrow(() -> new ResourceNotFoundException("Account not found"));
+                    List<TransactionDTO> transactionsInUsd = findTransactionsByAccount(accountId);
+                    map.put("Transactions in Usd Account",transactionsInUsd);
+                }
+            }
+        }
+        return map;
+    }
 }
