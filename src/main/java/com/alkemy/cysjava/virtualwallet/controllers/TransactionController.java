@@ -3,6 +3,7 @@ package com.alkemy.cysjava.virtualwallet.controllers;
 import com.alkemy.cysjava.virtualwallet.DTOs.AccountDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.TransactionCreationDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.TransactionDTO;
+import com.alkemy.cysjava.virtualwallet.DTOs.TransactionSendMoneyDTO;
 import com.alkemy.cysjava.virtualwallet.exceptions.BadRequestException;
 import com.alkemy.cysjava.virtualwallet.models.Account;
 import com.alkemy.cysjava.virtualwallet.models.Transaction;
@@ -34,6 +35,14 @@ public class TransactionController {
         return new ResponseEntity<>(newTransactionDTO, HttpStatus.OK);
     }
 
+
+    @PostMapping("/sendars")
+    public ResponseEntity<List<TransactionDTO>> sendArs(@RequestBody @Valid TransactionSendMoneyDTO transactionSendMoneyDTO){
+        List<TransactionDTO> newTransactionDTO = transactionService.sendArs(transactionSendMoneyDTO);
+        return new ResponseEntity<>(newTransactionDTO, HttpStatus.OK);
+    }
+
+  
     @GetMapping("/{userId}")
     public ResponseEntity<Map<String,List<TransactionDTO>>> listTransactions(@PathVariable Long userId){
         Map<String,List<TransactionDTO>> transactionsByUser = transactionService.findTransactionsByUser(userId);

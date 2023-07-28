@@ -3,6 +3,7 @@ package com.alkemy.cysjava.virtualwallet.service;
 import com.alkemy.cysjava.virtualwallet.DTOs.AccountDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.TransactionCreationDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.TransactionDTO;
+import com.alkemy.cysjava.virtualwallet.DTOs.TransactionSendMoneyDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.UserDTO;
 import com.alkemy.cysjava.virtualwallet.exceptions.BadRequestException;
 import com.alkemy.cysjava.virtualwallet.exceptions.ResourceNotFoundException;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionService {
@@ -23,7 +25,6 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final AccountService accountService;
     private final AccountRepository accountRepository;
-
     private final TransactionMapper transactionMapper;
 
     public TransactionService(TransactionRepository transactionRepository,
@@ -62,6 +63,70 @@ public class TransactionService {
         return transactionMapper.toTransactionDTO(transactionCreated);
     }
 
+  
+    public List<TransactionDTO> sendArs(TransactionSendMoneyDTO transactionSendMoneyDTO) {
+        Account account = accountService.findAccountById(transactionSendMoneyDTO.getAccount());
+        Account targetAccount = accountService.findAccountById(transactionSendMoneyDTO.getTargetAccount());
+
+        //invoco metodo para validar el payment
+        validatePaymentTransaction(account, transactionSendMoneyDTO.getAmount());
+
+        //invoco metodo para setear el balance de ambas cuentas
+        performMoneyTransfer(account, targetAccount, transactionSendMoneyDTO.getAmount());
+
+        //invoco metodo para la creacion de la transaccion segun su tipo de movimiento
+        Transaction paymentTransaction = createTransaction(account, transactionSendMoneyDTO.getAmount(), "payment");
+        Transaction incomeTransaction = createTransaction(targetAccount, transactionSendMoneyDTO.getAmount(), "income");
+
+        //guardo en base de datos las modificaciones del balance de la cuenta
+        accountRepository.save(account);
+        accountRepository.save(targetAccount);
+
+        //guardo en base de datos las transferencias
+        transactionRepository.save(paymentTransaction);
+        transactionRepository.save(incomeTransaction);
+
+        //retorno la lista de transacciones mapeadas a dto
+        return Arrays.asList(transactionMapper.toTransactionDTO(paymentTransaction),
+                transactionMapper.toTransactionDTO(incomeTransaction));
+    }
+
+    //metodo validacion payment
+    private void validatePaymentTransaction(Account account, double amount) {
+        //valido que el balance de la cuenta que quiere transferir dinero sea suficiente
+        //valido que el limite de transaccion no sea excedido
+        if (account.getBalance() < amount) {
+            throw new BadRequestException("Insufficient balance, transfer could not be made");
+        } else if (account.getTransactionLimit() < amount) {
+            throw new BadRequestException("You have exceeded the transaction limit");
+        }
+    }
+
+    //metodo para setear balance de ambas cuentas
+    private void performMoneyTransfer(Account account, Account targetAccount, double amount) {
+        account.setBalance(account.getBalance() - amount);
+        targetAccount.setBalance(targetAccount.getBalance() + amount);
+    }
+
+    //metodo que crea la transaccion
+    private Transaction createTransaction(Account account, double amount, String transactionType) {
+        Transaction transaction = new Transaction();
+        transaction.setAmount(amount);
+        transaction.setTransactionType(transactionType);
+        transaction.setTransactionDate(new Timestamp(System.currentTimeMillis()));
+        transaction.setAccount(account);
+
+        //asignacion del tipo de transaccion
+        if ("payment".equals(transactionType)) {
+            transaction.setDescription("Transfer of money sent in pesos");
+        } else if ("income".equals(transactionType)) {
+            transaction.setDescription("Transfer of money received in pesos");
+        }
+
+        return transaction;
+    }
+
+  
     public List<TransactionDTO> findAllTransactionsDTO() {
         List<Transaction> transaction = transactionRepository.findAll();
         List<TransactionDTO> transactionDTO = new ArrayList<>();
