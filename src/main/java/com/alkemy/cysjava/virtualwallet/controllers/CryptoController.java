@@ -1,8 +1,6 @@
 package com.alkemy.cysjava.virtualwallet.controllers;
 
-import com.alkemy.cysjava.virtualwallet.DTOs.CryptoCreationDTO;
-import com.alkemy.cysjava.virtualwallet.DTOs.CryptoDTO;
-import com.alkemy.cysjava.virtualwallet.DTOs.UserDTO;
+import com.alkemy.cysjava.virtualwallet.DTOs.*;
 import com.alkemy.cysjava.virtualwallet.exceptions.ResourceNotFoundException;
 import com.alkemy.cysjava.virtualwallet.mappers.CryptoMapper;
 import com.alkemy.cysjava.virtualwallet.service.CryptoService;
@@ -34,6 +32,12 @@ public class CryptoController {
         catch(ResourceNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<CryptoDTO> updateCrypto(@PathVariable Long id, @RequestBody @Valid CryptoUpdateDTO cryptoUpdateDTO){
+        CryptoDTO newCryptoDTO = cryptoService.updateCrypto(id, cryptoUpdateDTO);
+        return new ResponseEntity<>(newCryptoDTO, HttpStatus.OK);
     }
 }
 

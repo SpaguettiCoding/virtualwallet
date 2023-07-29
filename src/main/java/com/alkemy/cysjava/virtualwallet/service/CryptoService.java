@@ -1,11 +1,10 @@
 package com.alkemy.cysjava.virtualwallet.service;
 
-import com.alkemy.cysjava.virtualwallet.DTOs.CryptoCreationDTO;
-import com.alkemy.cysjava.virtualwallet.DTOs.CryptoDTO;
-import com.alkemy.cysjava.virtualwallet.DTOs.UserDTO;
+import com.alkemy.cysjava.virtualwallet.DTOs.*;
 import com.alkemy.cysjava.virtualwallet.exceptions.BadRequestException;
 import com.alkemy.cysjava.virtualwallet.exceptions.ResourceNotFoundException;
 import com.alkemy.cysjava.virtualwallet.mappers.CryptoMapper;
+import com.alkemy.cysjava.virtualwallet.models.Account;
 import com.alkemy.cysjava.virtualwallet.models.Crypto;
 import com.alkemy.cysjava.virtualwallet.models.User;
 import com.alkemy.cysjava.virtualwallet.repositories.AccountRepository;
@@ -46,6 +45,22 @@ public class CryptoService {
             throw new ResourceNotFoundException("User not found");
         }
         Crypto crypto = optionalCrypto.get();
+        return cryptoMapper.toCryptoDTO(crypto);
+    }
+
+    public CryptoDTO updateCrypto(Long id, CryptoUpdateDTO cryptoUpdateDTO) {
+
+        Optional<Crypto> OptionalCrypto = cryptoRepository.findById(id);
+
+        if(!OptionalCrypto.isPresent()){
+            throw new ResourceNotFoundException("Crypto not found");
+        }
+
+        Crypto crypto = OptionalCrypto.get();
+
+        cryptoUpdateDTO.setAmount(cryptoUpdateDTO.getAmount());
+        crypto.setAmount(cryptoUpdateDTO.getAmount());
+        cryptoRepository.save(crypto);
         return cryptoMapper.toCryptoDTO(crypto);
     }
 }
