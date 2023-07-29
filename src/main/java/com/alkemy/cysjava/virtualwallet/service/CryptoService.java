@@ -2,15 +2,19 @@ package com.alkemy.cysjava.virtualwallet.service;
 
 import com.alkemy.cysjava.virtualwallet.DTOs.CryptoCreationDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.CryptoDTO;
+import com.alkemy.cysjava.virtualwallet.DTOs.UserDTO;
 import com.alkemy.cysjava.virtualwallet.exceptions.BadRequestException;
+import com.alkemy.cysjava.virtualwallet.exceptions.ResourceNotFoundException;
 import com.alkemy.cysjava.virtualwallet.mappers.CryptoMapper;
 import com.alkemy.cysjava.virtualwallet.models.Crypto;
+import com.alkemy.cysjava.virtualwallet.models.User;
 import com.alkemy.cysjava.virtualwallet.repositories.AccountRepository;
 import com.alkemy.cysjava.virtualwallet.repositories.CryptoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.Optional;
 
 @Service
 public class CryptoService {
@@ -33,5 +37,15 @@ public class CryptoService {
 
         Crypto createdCrypto = cryptoRepository.save(crypto);
         return cryptoMapper.toCryptoDTO(createdCrypto);
+    }
+
+    public CryptoDTO findUserById(Long id) {
+        Optional<Crypto> optionalCrypto = cryptoRepository.findById(id);
+
+        if (!optionalCrypto.isPresent()) {
+            throw new ResourceNotFoundException("User not found");
+        }
+        Crypto crypto = optionalCrypto.get();
+        return cryptoMapper.toCryptoDTO(crypto);
     }
 }
