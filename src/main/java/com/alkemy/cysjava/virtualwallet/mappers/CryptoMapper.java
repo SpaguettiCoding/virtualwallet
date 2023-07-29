@@ -31,7 +31,7 @@ public class CryptoMapper {
         Crypto crypto = new Crypto();
         crypto.setName(dto.getName());
         crypto.setAmount(dto.getAmount());
-        crypto.setAccount(accountService.findAccountById(dto.getAccount()).orElseThrow(() -> new ResourceNotFoundException("Account not found")));
+        crypto.setAccount(accountService.findOne(dto.getAccount()).orElseThrow(() -> new ResourceNotFoundException("Account not found")));
         return crypto;
     }
 }
