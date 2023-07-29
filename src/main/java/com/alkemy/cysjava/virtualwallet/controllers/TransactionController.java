@@ -42,6 +42,11 @@ public class TransactionController {
         return new ResponseEntity<>(newTransactionDTO, HttpStatus.OK);
     }
 
+    @PostMapping("/sendusd")
+    public ResponseEntity<List<TransactionDTO>> sendUsd(@RequestBody @Valid TransactionSendMoneyDTO transactionSendMoneyDTO){
+        List<TransactionDTO> newTransactionDTO = transactionService.sendUsd(transactionSendMoneyDTO);
+        return new ResponseEntity<>(newTransactionDTO, HttpStatus.OK);
+    }
   
     @GetMapping("/{userId}")
     public ResponseEntity<Map<String,List<TransactionDTO>>> listTransactions(@PathVariable Long userId){
