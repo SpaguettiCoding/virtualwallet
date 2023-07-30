@@ -17,7 +17,6 @@ public class CryptoCreationDTO {
     private String name;
 
     @NotNull(message = "Amount can't be null")
-    @NotBlank(message = "Amount can't be empty")
     private Double amount;
 
     @NotNull(message = "Account id can't be null")
