@@ -6,6 +6,7 @@ import com.alkemy.cysjava.virtualwallet.DTOs.UserUpdateDTO;
 import com.alkemy.cysjava.virtualwallet.exceptions.BadRequestException;
 import com.alkemy.cysjava.virtualwallet.exceptions.ResourceNotFoundException;
 import com.alkemy.cysjava.virtualwallet.mappers.UserMapper;
+import com.alkemy.cysjava.virtualwallet.models.Account;
 import com.alkemy.cysjava.virtualwallet.repositories.UserRepository;
 import com.alkemy.cysjava.virtualwallet.models.User;
 import org.springframework.stereotype.Service;
@@ -55,8 +56,13 @@ public class UserService {
         return userDTO;
     }
 
-    public Optional<User> findById(Long id) {
-        return userRepository.findUserById(id);
+    public User findById(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if (!optionalUser.isPresent()) {
+            throw new ResourceNotFoundException("User not found");
+        }
+        return optionalUser.get();
     }
 
     public void deleteUserById(Long id) {

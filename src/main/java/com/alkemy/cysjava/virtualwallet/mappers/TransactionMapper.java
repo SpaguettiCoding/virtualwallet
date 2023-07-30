@@ -21,18 +21,14 @@ public class TransactionMapper {
         dto.setTransactionType(transaction.getTransactionType());
         dto.setDescription(transaction.getDescription());
         dto.setTransactionDate(transaction.getTransactionDate());
-        if (transaction.getAccount() != null) {
-            dto.setAccount(transaction.getAccount().getId());
-        } else {
-            dto.setAccount(0L);
-        }
+        dto.setAccount(transaction.getAccount().getId());
         return dto;
     }
 
     public Transaction toTransaction(TransactionCreationDTO transactionCreationDTO){
         Transaction transaction = new Transaction();
         transaction.setAmount(transactionCreationDTO.getAmount());
-        transaction.setAccount(accountService.findOne(transactionCreationDTO.getAccount()).orElseThrow(() -> new ResourceNotFoundException("Account Not Found")));
+        transaction.setAccount(accountService.findAccountById(transactionCreationDTO.getAccount()));
 
         return transaction;
     }

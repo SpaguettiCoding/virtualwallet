@@ -35,26 +35,12 @@ public class TransactionService {
         this.transactionMapper = transactionMapper;
     }
 
-    public TransactionDTO depositToAccount(TransactionCreationDTO transactionCreationDTO){
+    public TransactionDTO depositToAccount(TransactionCreationDTO transactionCreationDTO) {
+        validateDepositAmount(transactionCreationDTO.getAmount());
 
-        if (transactionCreationDTO.getAmount() > 0) {
-            transactionCreationDTO.setAmount(transactionCreationDTO.getAmount());
-        } else {
-            throw new BadRequestException("amount must be greater than 0");
-        }
+        Account account = getAccountById(transactionCreationDTO.getAccount());
 
-        transactionCreationDTO.setAccount(transactionCreationDTO.getAccount());
-
-        Transaction transaction = transactionMapper.toTransaction(transactionCreationDTO);
-        transaction.setTransactionType("deposit");
-        transaction.setDescription("deposit received");
-        transaction.setTransactionDate(new Timestamp(System.currentTimeMillis()));
-
-        Optional<Account> optionalAccount = accountService.findOne(transactionCreationDTO.getAccount());
-        if(!optionalAccount.isPresent()){
-            throw new ResourceNotFoundException("Account not found");
-        }
-        Account account = optionalAccount.get();
+        Transaction transaction = createDepositTransaction(transactionCreationDTO, account);
 
         account.setBalance(account.getBalance() + transactionCreationDTO.getAmount());
 
@@ -63,18 +49,71 @@ public class TransactionService {
         return transactionMapper.toTransactionDTO(transactionCreated);
     }
 
+    private void validateDepositAmount(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than 0");
+        }
+    }
+
+    private Account getAccountById(Long accountId) {
+        return accountService.findAccountById(accountId);
+    }
+
+    private Transaction createDepositTransaction(TransactionCreationDTO transactionCreationDTO, Account account) {
+        Transaction transaction = transactionMapper.toTransaction(transactionCreationDTO);
+        transaction.setTransactionType("deposit");
+        transaction.setDescription("Deposit received");
+        transaction.setTransactionDate(new Timestamp(System.currentTimeMillis()));
+
+        return transaction;
+    }
   
     public List<TransactionDTO> sendArs(TransactionSendMoneyDTO transactionSendMoneyDTO) {
-        Account account = accountService.findAccountById(transactionSendMoneyDTO.getAccount());
+        Account account = getAccountById(transactionSendMoneyDTO.getAccount());
         //valido que la cuenta que trata de enviar dinero sea en pesos
         if(!account.getCurrency().equals("ars")){
             throw new BadRequestException("It is not possible to perform this operation, the account must be in pesos.");
         }
-        Account targetAccount = accountService.findAccountById(transactionSendMoneyDTO.getTargetAccount());
+        Account targetAccount = getAccountById(transactionSendMoneyDTO.getTargetAccount());
         //valido que la cuenta destinataria tambien sea en pesos
         if(!targetAccount.getCurrency().equals("ars")){
             throw new BadRequestException("It is not possible to perform this operation, the target account must be in pesos.");
         }
+        //invoco metodo para validar el payment
+        validatePaymentTransaction(account, transactionSendMoneyDTO.getAmount());
+
+        //invoco metodo para setear el balance de ambas cuentas
+        performMoneyTransfer(account, targetAccount, transactionSendMoneyDTO.getAmount());
+
+        //invoco metodo para la creacion de la transaccion segun su tipo de movimiento
+        Transaction paymentTransaction = createTransaction(account, transactionSendMoneyDTO.getAmount(), "payment");
+        Transaction incomeTransaction = createTransaction(targetAccount, transactionSendMoneyDTO.getAmount(), "income");
+
+        //guardo en base de datos las modificaciones del balance de la cuenta
+        accountRepository.save(account);
+        accountRepository.save(targetAccount);
+
+        //guardo en base de datos las transferencias
+        transactionRepository.save(paymentTransaction);
+        transactionRepository.save(incomeTransaction);
+
+        //retorno la lista de transacciones mapeadas a dto
+        return Arrays.asList(transactionMapper.toTransactionDTO(paymentTransaction),
+                transactionMapper.toTransactionDTO(incomeTransaction));
+    }
+
+    public List<TransactionDTO> sendUsd(TransactionSendMoneyDTO transactionSendMoneyDTO) {
+        Account account = accountService.findAccountById(transactionSendMoneyDTO.getAccount());
+        //valido que la cuenta que trata de enviar dinero sea en dolares
+        if(!account.getCurrency().equals("usd")){
+            throw new BadRequestException("It is not possible to perform this operation, the account must be in usd.");
+        }
+        Account targetAccount = accountService.findAccountById(transactionSendMoneyDTO.getTargetAccount());
+        //valido que la cuenta destinataria tambien sea en dolares
+        if(!targetAccount.getCurrency().equals("usd")){
+            throw new BadRequestException("It is not possible to perform this operation, the target account must be in usd.");
+        }
+
         //invoco metodo para validar el payment
         validatePaymentTransaction(account, transactionSendMoneyDTO.getAmount());
 
@@ -138,7 +177,6 @@ public class TransactionService {
         return transaction;
     }
 
-  
     public List<TransactionDTO> findAllTransactionsDTO() {
         List<Transaction> transaction = transactionRepository.findAll();
         List<TransactionDTO> transactionDTO = new ArrayList<>();
@@ -189,38 +227,4 @@ public class TransactionService {
         return map;
     }
 
-    public List<TransactionDTO> sendUsd(TransactionSendMoneyDTO transactionSendMoneyDTO) {
-        Account account = accountService.findAccountById(transactionSendMoneyDTO.getAccount());
-        //valido que la cuenta que trata de enviar dinero sea en dolares
-        if(!account.getCurrency().equals("usd")){
-            throw new BadRequestException("It is not possible to perform this operation, the account must be in usd.");
-        }
-        Account targetAccount = accountService.findAccountById(transactionSendMoneyDTO.getTargetAccount());
-        //valido que la cuenta destinataria tambien sea en dolares
-        if(!targetAccount.getCurrency().equals("usd")){
-            throw new BadRequestException("It is not possible to perform this operation, the target account must be in usd.");
-        }
-
-        //invoco metodo para validar el payment
-        validatePaymentTransaction(account, transactionSendMoneyDTO.getAmount());
-
-        //invoco metodo para setear el balance de ambas cuentas
-        performMoneyTransfer(account, targetAccount, transactionSendMoneyDTO.getAmount());
-
-        //invoco metodo para la creacion de la transaccion segun su tipo de movimiento
-        Transaction paymentTransaction = createTransaction(account, transactionSendMoneyDTO.getAmount(), "payment");
-        Transaction incomeTransaction = createTransaction(targetAccount, transactionSendMoneyDTO.getAmount(), "income");
-
-        //guardo en base de datos las modificaciones del balance de la cuenta
-        accountRepository.save(account);
-        accountRepository.save(targetAccount);
-
-        //guardo en base de datos las transferencias
-        transactionRepository.save(paymentTransaction);
-        transactionRepository.save(incomeTransaction);
-
-        //retorno la lista de transacciones mapeadas a dto
-        return Arrays.asList(transactionMapper.toTransactionDTO(paymentTransaction),
-                transactionMapper.toTransactionDTO(incomeTransaction));
-    }
 }
