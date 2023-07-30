@@ -41,11 +41,5 @@ public class CryptoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-    @PatchMapping("/{id}")
-    public ResponseEntity<CryptoDTO> updateCrypto(@PathVariable Long id, @RequestBody @Valid CryptoUpdateDTO cryptoUpdateDTO) {
-        CryptoDTO newCryptoDTO = cryptoService.updateCrypto(id, cryptoUpdateDTO);
-        return new ResponseEntity<>(newCryptoDTO, HttpStatus.OK);
-    }
 }
 
