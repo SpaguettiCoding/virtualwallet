@@ -24,9 +24,9 @@ public class CryptoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CryptoDTO> getUserById(@PathVariable Long id){
+    public ResponseEntity<CryptoDTO> getCryptoById(@PathVariable Long id){
         try {
-            CryptoDTO cryptoDTO = cryptoService.findUserById(id);
+            CryptoDTO cryptoDTO = cryptoService.findCryptoById(id);
             return new ResponseEntity<>(cryptoDTO, HttpStatus.OK);
         }
         catch(ResourceNotFoundException e) {

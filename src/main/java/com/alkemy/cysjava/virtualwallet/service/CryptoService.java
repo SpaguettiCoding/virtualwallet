@@ -38,11 +38,11 @@ public class CryptoService {
         return cryptoMapper.toCryptoDTO(createdCrypto);
     }
 
-    public CryptoDTO findUserById(Long id) {
+    public CryptoDTO findCryptoById(Long id) {
         Optional<Crypto> optionalCrypto = cryptoRepository.findById(id);
 
         if (!optionalCrypto.isPresent()) {
-            throw new ResourceNotFoundException("User not found");
+            throw new ResourceNotFoundException("Crypto not found");
         }
         Crypto crypto = optionalCrypto.get();
         return cryptoMapper.toCryptoDTO(crypto);
