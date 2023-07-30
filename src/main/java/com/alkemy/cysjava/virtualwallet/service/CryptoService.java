@@ -37,30 +37,4 @@ public class CryptoService {
         Crypto createdCrypto = cryptoRepository.save(crypto);
         return cryptoMapper.toCryptoDTO(createdCrypto);
     }
-
-    public CryptoDTO findUserById(Long id) {
-        Optional<Crypto> optionalCrypto = cryptoRepository.findById(id);
-
-        if (!optionalCrypto.isPresent()) {
-            throw new ResourceNotFoundException("User not found");
-        }
-        Crypto crypto = optionalCrypto.get();
-        return cryptoMapper.toCryptoDTO(crypto);
-    }
-
-    public CryptoDTO updateCrypto(Long id, CryptoUpdateDTO cryptoUpdateDTO) {
-
-        Optional<Crypto> OptionalCrypto = cryptoRepository.findById(id);
-
-        if(!OptionalCrypto.isPresent()){
-            throw new ResourceNotFoundException("Crypto not found");
-        }
-
-        Crypto crypto = OptionalCrypto.get();
-
-        cryptoUpdateDTO.setAmount(cryptoUpdateDTO.getAmount());
-        crypto.setAmount(cryptoUpdateDTO.getAmount());
-        cryptoRepository.save(crypto);
-        return cryptoMapper.toCryptoDTO(crypto);
-    }
 }

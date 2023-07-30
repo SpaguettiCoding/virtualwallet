@@ -22,22 +22,5 @@ public class CryptoController {
         CryptoDTO newCryptoDTO = cryptoService.addCrypto(cryptoCreationDTO);
         return new ResponseEntity<>(newCryptoDTO, HttpStatus.CREATED);
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<CryptoDTO> getUserById(@PathVariable Long id){
-        try {
-            CryptoDTO cryptoDTO = cryptoService.findUserById(id);
-            return new ResponseEntity<>(cryptoDTO, HttpStatus.OK);
-        }
-        catch(ResourceNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PatchMapping("/{id}")
-    public ResponseEntity<CryptoDTO> updateCrypto(@PathVariable Long id, @RequestBody @Valid CryptoUpdateDTO cryptoUpdateDTO){
-        CryptoDTO newCryptoDTO = cryptoService.updateCrypto(id, cryptoUpdateDTO);
-        return new ResponseEntity<>(newCryptoDTO, HttpStatus.OK);
-    }
 }
 
