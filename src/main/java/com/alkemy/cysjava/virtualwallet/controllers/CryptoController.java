@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/crypto")
 public class CryptoController {
@@ -21,6 +23,12 @@ public class CryptoController {
     public ResponseEntity<CryptoDTO> addCrypto(@RequestBody @Valid CryptoCreationDTO cryptoCreationDTO){
         CryptoDTO newCryptoDTO = cryptoService.addCrypto(cryptoCreationDTO);
         return new ResponseEntity<>(newCryptoDTO, HttpStatus.CREATED);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<CryptoDTO>> getAllCryptos() {
+        List<CryptoDTO> cryptoDTO = cryptoService.findAllCryptos();
+        return new ResponseEntity<>(cryptoDTO, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -35,7 +43,7 @@ public class CryptoController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<CryptoDTO> updateCrypto(@PathVariable Long id, @RequestBody @Valid CryptoUpdateDTO cryptoUpdateDTO){
+    public ResponseEntity<CryptoDTO> updateCrypto(@PathVariable Long id, @RequestBody @Valid CryptoUpdateDTO cryptoUpdateDTO) {
         CryptoDTO newCryptoDTO = cryptoService.updateCrypto(id, cryptoUpdateDTO);
         return new ResponseEntity<>(newCryptoDTO, HttpStatus.OK);
     }
