@@ -20,11 +20,7 @@ public class AccountMapper {
         dto.setCurrency(account.getCurrency());
         dto.setBalance(account.getBalance());
         dto.setTransactionLimit(account.getTransactionLimit());
-        if (account.getUser() != null) {
-            dto.setUser(account.getUser().getId());
-        } else {
-            dto.setUser(0L);
-        }
+        dto.setUser(account.getUser().getId());
 
         return dto;
     }
@@ -32,7 +28,7 @@ public class AccountMapper {
     public Account toAccount(AccountCreationDTO dto) {
         Account account = new Account();
         account.setCurrency(dto.getCurrency());
-        account.setUser(userService.findById(dto.getUser()).orElseThrow(() -> new ResourceNotFoundException("User Not Found")));
+        account.setUser(userService.findById(dto.getUser()));
         return account;
     }
 }
