@@ -94,8 +94,15 @@ public class CreditCardService {
     }
 
 
+    public CreditCardDTO findCreditCardById(Long id) {
+        Optional<CreditCard> optionalCreditCard = creditCardRepository.findById(id);
 
-
+        if (!optionalCreditCard.isPresent()) {
+            throw new ResourceNotFoundException("CreditCard not found");
+        }
+        CreditCard creditCard = optionalCreditCard.get();
+        return creditCardMapper.toCreditCardDTO(creditCard);
+    }
 
 
 

@@ -45,4 +45,15 @@ public class CreditCardController {
         return new ResponseEntity<>("Deletion of CreditCard with ID number " + id + " was successful.", HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<CreditCardDTO> getCreditCardById(@PathVariable Long id){
+        try {
+            CreditCardDTO creditCardDTO = creditCardService.findCreditCardById(id);
+            return new ResponseEntity<>(creditCardDTO, HttpStatus.OK);
+        }
+        catch(ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
