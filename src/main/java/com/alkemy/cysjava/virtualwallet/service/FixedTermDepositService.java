@@ -56,8 +56,6 @@ public class FixedTermDepositService {
             fixedTermDeposit.getAccount().setBalance(accountBalance - depositAmount);
         }
 
-        fixedTermDeposit.getAccount().setBalance(accountBalance - depositAmount);
-
         fixedTermDeposit.setCreationDate(new Timestamp(System.currentTimeMillis()));
         fixedTermDeposit.setClosingDate(fixedTermDepositCreationDTO.getClosingDate());
         fixedTermDeposit.setInterest(DEFAULT_INTEREST);
