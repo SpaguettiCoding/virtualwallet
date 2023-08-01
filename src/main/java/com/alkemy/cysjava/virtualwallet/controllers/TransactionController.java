@@ -35,6 +35,11 @@ public class TransactionController {
         return new ResponseEntity<>(newTransactionDTO, HttpStatus.OK);
     }
 
+    @PostMapping("/payment")
+    public ResponseEntity<TransactionDTO> paymentFromAccount(@RequestBody @Valid TransactionCreationDTO transactionCreationDTO){
+        TransactionDTO newTransactionDTO = transactionService.paymentFromAccount(transactionCreationDTO);
+        return new ResponseEntity<>(newTransactionDTO, HttpStatus.OK);
+    }
 
     @PostMapping("/sendars")
     public ResponseEntity<List<TransactionDTO>> sendArs(@RequestBody @Valid TransactionSendMoneyDTO transactionSendMoneyDTO){

@@ -1,23 +1,19 @@
 package com.alkemy.cysjava.virtualwallet.service;
 
-import com.alkemy.cysjava.virtualwallet.DTOs.AccountDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.TransactionCreationDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.TransactionDTO;
 import com.alkemy.cysjava.virtualwallet.DTOs.TransactionSendMoneyDTO;
-import com.alkemy.cysjava.virtualwallet.DTOs.UserDTO;
 import com.alkemy.cysjava.virtualwallet.exceptions.BadRequestException;
 import com.alkemy.cysjava.virtualwallet.exceptions.ResourceNotFoundException;
 import com.alkemy.cysjava.virtualwallet.mappers.TransactionMapper;
 import com.alkemy.cysjava.virtualwallet.models.Account;
 import com.alkemy.cysjava.virtualwallet.models.Transaction;
-import com.alkemy.cysjava.virtualwallet.models.User;
 import com.alkemy.cysjava.virtualwallet.repositories.AccountRepository;
 import com.alkemy.cysjava.virtualwallet.repositories.TransactionRepository;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class TransactionService {
@@ -49,6 +45,20 @@ public class TransactionService {
         return transactionMapper.toTransactionDTO(transactionCreated);
     }
 
+    public TransactionDTO paymentFromAccount(TransactionCreationDTO transactionCreationDTO) {
+        validateDepositAmount(transactionCreationDTO.getAmount());
+
+        Account account = getAccountById(transactionCreationDTO.getAccount());
+
+        Transaction transaction = createPaymentTransaction(transactionCreationDTO, account);
+
+        account.setBalance(account.getBalance() + transactionCreationDTO.getAmount());
+
+        Transaction transactionCreated = transactionRepository.save(transaction);
+
+        return transactionMapper.toTransactionDTO(transactionCreated);
+    }
+
     private void validateDepositAmount(double amount) {
         if (amount <= 0) {
             throw new IllegalArgumentException("Amount must be greater than 0");
@@ -63,6 +73,15 @@ public class TransactionService {
         Transaction transaction = transactionMapper.toTransaction(transactionCreationDTO);
         transaction.setTransactionType("deposit");
         transaction.setDescription("Deposit received");
+        transaction.setTransactionDate(new Timestamp(System.currentTimeMillis()));
+
+        return transaction;
+    }
+
+    public Transaction createPaymentTransaction(TransactionCreationDTO transactionCreationDTO, Account account) {
+        Transaction transaction = transactionMapper.toTransaction(transactionCreationDTO);
+        transaction.setTransactionType("payment");
+        transaction.setDescription("Payment deducted");
         transaction.setTransactionDate(new Timestamp(System.currentTimeMillis()));
 
         return transaction;
@@ -226,5 +245,6 @@ public class TransactionService {
         }
         return map;
     }
+
 
 }
