@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OpenAPIConfiguration {
     @Bean
-    public OpenAPI customOpenAPIHead(){
+    public OpenAPI customOpenAPI(){
         return new OpenAPI().info(new Info()
                 .title("VIRTUAL WALLET API - spaghettiCoding")
                 .version("1.0")
