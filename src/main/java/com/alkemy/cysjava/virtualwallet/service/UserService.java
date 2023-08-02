@@ -48,7 +48,7 @@ public class UserService {
         List<User> user = userRepository.findAll();
         List<UserDTO> userDTO = new ArrayList<>();
         for (User user1 : user) {
-            if (user1 != null) {
+            if (user1 != null && !user1.isSoftDelete()) {
                 UserDTO dto = userMapper.toUserDTO(user1);
                 userDTO.add(dto);
             }
@@ -59,10 +59,11 @@ public class UserService {
     public User findById(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
 
-        if (!optionalUser.isPresent()) {
+        if (optionalUser.isEmpty() || optionalUser.get().isSoftDelete()) {
             throw new ResourceNotFoundException("User not found");
+        } else {
+            return optionalUser.get();
         }
-        return optionalUser.get();
     }
 
     public void deleteUserById(Long id) {
