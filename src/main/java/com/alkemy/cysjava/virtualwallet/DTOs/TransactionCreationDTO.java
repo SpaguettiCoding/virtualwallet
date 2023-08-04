@@ -1,5 +1,6 @@
 package com.alkemy.cysjava.virtualwallet.DTOs;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,8 +15,10 @@ import lombok.Setter;
 public class TransactionCreationDTO {
 
     @NotNull(message = "amount can't be null or less than 0")
+    @Schema(description = "Valor de la transaccion", example = "1000")
     private Double amount;
 
     @NotNull(message = "account can't be null")
+    @Schema(description = "ID de la cuenta que recibe el deposito", example = "1")
     private Long account;
 }
