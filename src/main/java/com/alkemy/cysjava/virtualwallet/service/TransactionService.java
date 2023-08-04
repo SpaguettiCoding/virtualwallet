@@ -193,9 +193,6 @@ public class TransactionService {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new ResourceNotFoundException("Account not found"));
 
         List<Transaction> transaction = transactionRepository.findTransactionsByAccount(accountId);
-        if (transaction.isEmpty()) {
-            throw new ResourceNotFoundException("No transactions found for the account");
-        }
         List<TransactionDTO> transactionDTO = new ArrayList<>();
         for (Transaction transaction1: transaction) {
             if (transaction1 != null) {
